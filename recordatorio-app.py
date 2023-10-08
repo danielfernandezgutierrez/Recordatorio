@@ -15,28 +15,28 @@ def add_notes():
        f_aviso = fecha_entry.get()
        texto_titulo = titulo_entry.get()
        texto = texto_entry.get("1.0", "end-1c")
-       #crear unprompt para valores faltantes
+       #crear un prompt para valores faltantes
        if (len(f_aviso) <=0) & (len(texto_titulo)<=0) & (len(texto)<=1):
-               messagebox.showerror(message = "ENTER REQUIRED DETAILS" )
+               messagebox.showerror(message = "Ingrese los detalles requeridos" )
        else:
-       #Insert valores la bd
+       #Insert valores a la bd
                cur.execute("INSERT INTO notes_table VALUES ('%s','%s','%s')" %(f_aviso, texto_titulo, texto))
                messagebox.showinfo(message="Recordatorio Agregado")
        #Commit para preservar los cambios
                con.commit()
 #Mostrar los recordatorios
 def view_notes():
-       #Obtain all the user input
+       #Obtener las notas ingresadas
        f_aviso = fecha_entry.get()
        texto_titulo = titulo_entry.get()
        #If no input is given, retrieve all notes
        if (len(f_aviso) <=0) & (len(texto_titulo)<=0):
                sql_statement = "SELECT * FROM notes_table"
               
-       #Retrieve notes matching a title
+       #recuperar texto por una titulo
        elif (len(f_aviso) <=0) & (len(texto_titulo)>0):
                sql_statement = "SELECT * FROM notes_table where notes_title ='%s'" %texto_titulo
-       #Retrieve notes matching a date
+       #Recuperar texto por una fecha
        elif (len(f_aviso) >0) & (len(texto_titulo)<=0):
                sql_statement = "SELECT * FROM notes_table where date ='%s'"%f_aviso
        #Retrieve notes matching the date and title
@@ -49,7 +49,7 @@ def view_notes():
        row = cur.fetchall()
        #Check if none was retrieved
        if len(row)<=0:
-               messagebox.showerror(message="No note found")
+               messagebox.showerror(message="No se encontro nigun recordatorio")
        else:
                #Print the notes
                for i in row:
@@ -60,7 +60,7 @@ def delete_notes():
        f_aviso = fecha_entry.get()
        texto_titulo = titulo_entry.get()
        #Ask if user wants to delete all notes
-       choice = messagebox.askquestion(message="Do you want to delete all notes?")
+       choice = messagebox.askquestion(message="Esta seguro de borrar la nota?")
        #If yes is selected, delete all
        if choice == 'yes':
                sql_statement = "DELETE FROM notes_table" 
@@ -68,29 +68,29 @@ def delete_notes():
        #Delete notes matching a particular date and title
                if (len(f_aviso) <=0) & (len(notes_title)<=0): 
                        #Raise error for no inputs
-                       messagebox.showerror(message = "ENTER REQUIRED DETAILS" )
+                       messagebox.showerror(message = "Ingrese los detalles requeridos" )
                        return
                else:
                       sql_statement = "DELETE FROM notes_table where date ='%s' and notes_title ='%s'" %(date, notes_title)
        #Execute the query
        cur.execute(sql_statement)
-       messagebox.showinfo(message="Note(s) Deleted")
+       messagebox.showinfo(message="Recordatorio(s) Borrado")
        con.commit()
 #Update the notes
 def update_notes():
        #Obtain user input
-       today = date_entry.get()
-       notes_title = notes_title_entry.get()
-       notes = notes_entry.get("1.0", "end-1c")
+       fecha = fecha_entry.get()
+       titulo = texto_titulo_entry.get()
+       texto = texto_entry.get("1.0", "end-1c")
        #Check if input is given by the user
-       if (len(today) <=0) & (len(notes_title)<=0) & (len(notes)<=1):
-               messagebox.showerror(message = "ENTER REQUIRED DETAILS" )
+       if (len(fecha) <=0) & (len(titulo)<=0) & (len(texto)<=1):
+               messagebox.showerror(message = "Ingrese los detalles requeridos" )
        #update the note
        else:
                sql_statement = "UPDATE notes_table SET notes = '%s' where date ='%s' and notes_title ='%s'" %(notes, today, notes_title)
               
        cur.execute(sql_statement)
-       messagebox.showinfo(message="Note Updated")
+       messagebox.showinfo(message="Recordatorio actualizado")
        con.commit()
 
 
