@@ -112,7 +112,7 @@ fecha_entry.place(x=50,y=20)
 #titulo recordatorio input
 titulo_label = Label(window, text="recordatorio titulo:").place(x=10,y=50)
 titulo_entry = Entry(window,  width=30)
-titulo_label.place(x=80,y=50)
+titulo_entry.place(x=80,y=50)
 #texto input
 texto_label = Label(window, text="Notes:").place(x=10,y=90)
 texto_entry = Text(window, width=50,height=5)
