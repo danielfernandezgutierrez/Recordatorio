@@ -28,20 +28,20 @@ def add_notes():
 def view_notes():
        #Obtener las notas ingresadas
        f_aviso = fecha_entry.get()
-       texto_titulo = titulo_entry.get()
+       titulo = titulo_entry.get()
        #If no input is given, retrieve all notes
-       if (len(f_aviso) <=0) & (len(texto_titulo)<=0):
+       if (len(f_aviso) <=0) & (len(titulo)<=0):
                sql_statement = "SELECT * FROM notes_table"
               
        #recuperar texto por una titulo
        elif (len(f_aviso) <=0) & (len(texto_titulo)>0):
-               sql_statement = "SELECT * FROM notes_table where notes_title ='%s'" %texto_titulo
+               sql_statement = "SELECT * FROM notes_table where notes_title ='%s'" %titulo
        #Recuperar texto por una fecha
        elif (len(f_aviso) >0) & (len(texto_titulo)<=0):
                sql_statement = "SELECT * FROM notes_table where date ='%s'"%f_aviso
        #Retrieve notes matching the date and title
        else:
-               sql_statement = "SELECT * FROM notes_table where date ='%s' and notes_title ='%s'" %(f_aviso, texto_titulo)
+               sql_statement = "SELECT * FROM notes_table where date ='%s' and notes_title ='%s'" %(f_aviso, titulo)
               
        #Execute the query
        cur.execute(sql_statement)
@@ -57,7 +57,7 @@ def view_notes():
                        messagebox.showinfo(message="fecha: "+i[0]+"\nTitulo: "+i[1]+"\nRecordar: "+i[2])
 #Delete the notes
 def delete_notes():
-        #Obtain input values
+       #Obtain input values
        f_aviso = fecha_entry.get()
        titulo = titulo_entry.get()
        #Ask if user wants to delete all notes
